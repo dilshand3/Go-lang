@@ -1,12 +1,7 @@
-package main
+package functions
 
 import "fmt"
 
-func main(){
-	getSimpleMessage()
-	fmt.Println("hello function in go")
-}
-
-func getSimpleMessage(){
+func GetSimpleMessage(){
 	fmt.Println("a simple message")
 }
