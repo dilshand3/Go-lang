@@ -11,7 +11,13 @@ func devide(a, b float64) (float64, error) {
 }
 
 func main() {
-	ans, _ := devide(10, 0);
+	// ans, _ := devide(10, 0);
+
+	ans,err := devide(10,0);
+	if err != nil {
+		fmt.Println("This is an error");
+		return;
+	}
 
 	fmt.Println("this is an answer",ans);
 }
