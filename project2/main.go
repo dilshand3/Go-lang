@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -57,6 +58,71 @@ func main() {
 			"email":    data.Email,
 			"password": data.Password,
 		})
+	})
+
+	router.PUT("/put", func(ctx *gin.Context) {
+		type User struct {
+			Email    string `json:"email"`
+			Password string `json:"password"`
+		}
+
+		var bodyData User
+
+		if err := ctx.BindJSON(&bodyData); err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+
+		ctx.JSON(http.StatusOK, gin.H{
+			"email":    bodyData.Email,
+			"password": bodyData.Password,
+		})
+	})
+
+	router.PATCH("/patch", func(ctx *gin.Context) {
+		type User struct {
+			Email    string `json:"email"`
+			Password string `json:"password"`
+		}
+
+		var body User
+
+		if err := ctx.BindJSON(&body); err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+
+		ctx.JSON(http.StatusOK, gin.H{
+			"email":    body.Email,
+			"password": body.Password,
+		})
+	})
+
+	router.DELETE("/delete/:id", func(ctx *gin.Context) {
+		id := ctx.Param("id")
+
+		if id == "" {
+			ctx.JSON(http.StatusBadRequest, gin.H{
+				"msg": "id required for delete request",
+			})
+			return
+		}
+
+		if id == strconv.Itoa(1) {
+			ctx.JSON(http.StatusNotFound, gin.H{
+				"msg": "row not found",
+			})
+			return
+		}
+
+		ctx.JSON(http.StatusOK, gin.H{
+			"msg": "row deleted succesfully",
+		})
+
 	})
 
 	// Start server on port 8080 (default)
